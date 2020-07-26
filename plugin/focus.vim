@@ -1,7 +1,7 @@
 " Focus on the fragments.
 " Author: SpringHan<springchohaku@qq.com>
-" Last Change: 2020.7.25
-" Version: 1.0.0
+" Last Change: 2020.7.26
+" Version: 1.0.1
 " Repository: https://github.com/SpringHan/vim-focus.git
 " Lisence: MIT
 
@@ -15,6 +15,7 @@ let g:VimFoucsLoaded = 1
 " Commands {{{
 command! -nargs=0 -range FocusStart call s:StartFocus()
 command! -nargs=0 FocusConvert call s:ConvertBack()
+command! -nargs=0 FocusSave call s:FocusSave()
 " }}}
 
 " FUNCTION: {{{ s:GetFragments() { Get the fragments that needs to focus }
@@ -89,6 +90,19 @@ function! s:ConvertBack() abort
 	execute "write"
 	unlet s:focusBuf s:originBuf s:focusLastLineNr s:focusHeaderLineNr
 				\ s:originFileType
+endfunction " }}}
+
+" FUNCTION: {{{ s:FocusSave() { Save the current fragments content (not
+" convenrt) }
+function! s:FocusSave() abort
+	let l:currentLastLineNr = line('$')
+	let l:currentContent = getline(1, l:currentLastLineNr)
+	silent execute "buf " . s:originBuf
+	call deletebufline(s:originBuf, s:focusHeaderLineNr, s:focusLastLineNr)
+	call append(s:focusHeaderLineNr - 1, l:currentContent)
+	execute "write | buf " . s:focusBuf
+	let s:focusLastLineNr = l:currentLastLineNr + s:focusHeaderLineNr - 1
+	unlet l:currentLastLineNr l:currentContent
 endfunction " }}}
 
 " FUNCTION: {{{ s:StartFocus() { Start focus fragments }

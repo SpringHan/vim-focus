@@ -24,7 +24,8 @@ Plug 'SpringHan/vim-focus'
 ```vim
 " These are the keybindings of the commands:
 vnoremap <silent> <leader>vf :FocusStart<CR>
-vnoremap <silent> <leader>vs :FocusConvert<CR>
+nnoremap <silent> <leader>vs :FocusConvert<CR>
+nnoremap <silent> <leader>vS :FocusSave<CR>
 
 " This is the open way of the focus buffer.Default is 'buffer', or it can be 'window'
 let g:VimFocusOpenWay = 'window'
@@ -35,6 +36,8 @@ let g:VimFocusOpenWay = 'window'
 - `:FocusStart` : When you have selected the fragments needs to focus, you can use this command to get in the focus buffer.
 
 - `:FocusConvert` : When you finished the fragments' modifies, you can use this command to convert the focus buffer back to the origin file.
+
+- `:FocusSave` : While you editing in the focus buffer, you can use this command to save the modifies to the original buffer without closing the focus buffer.
 
 ### License
 
